@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
 )
 
-find_package(OpenCV 3.3.1 REQUIRED
+find_package(OpenCV REQUIRED
   CONFIG
   PATHS /usr/local /usr
   NO_DEFAULT_PATH

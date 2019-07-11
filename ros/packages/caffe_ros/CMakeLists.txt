@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(CUDA)
 # OpenCV 3.3.1 is default on Jetson starting JetPack 3.2. Might be required to install in simulation environment.
 # PATHS is required as ROS Kinetic installs its own version of OpenCV 3.3.1 without CUDA support.
-find_package(OpenCV 3.3.1 REQUIRED
+find_package(OpenCV REQUIRED
   CONFIG
   PATHS /usr/local /usr
   NO_DEFAULT_PATH
@@ -77,6 +77,7 @@ target_link_libraries(caffe_ros_node
   nvcaffe_parser
   nvinfer
   opencv_core
+  opencv_imgcodecs
   opencv_imgproc
   opencv_highgui
 )

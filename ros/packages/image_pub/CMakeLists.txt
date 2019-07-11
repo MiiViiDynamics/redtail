@@ -34,4 +34,5 @@ target_link_libraries(image_pub_node
   opencv_core
   opencv_imgproc
   opencv_highgui
+  opencv_videoio
 )

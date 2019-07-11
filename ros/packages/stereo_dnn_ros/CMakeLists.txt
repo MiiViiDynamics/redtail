@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_filters
   sensor_msgs
+  nvstereo_inference
 )
 
 ## System dependencies are found with CMake's conventions
@@ -16,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(CUDA)
 # OpenCV 3.3.1 is default on Jetson starting JetPack 3.2. Might be required to install in simulation environment.
 # PATHS is required as ROS Kinetic installs its own version of OpenCV 3.3.1 without CUDA support.
-find_package(OpenCV 3.3.1 REQUIRED
+find_package(OpenCV  REQUIRED
   CONFIG
   PATHS /usr/local /usr
   NO_DEFAULT_PATH
@@ -34,7 +35,7 @@ find_package(OpenCV 3.3.1 REQUIRED
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES stereo_dnn_ros
-#  CATKIN_DEPENDS roscpp std_msgs
+#  CATKIN_DEPENDS roscpp std_msgs nvstereo_inference
 #  DEPENDS system_lib
 )
 
@@ -67,9 +68,7 @@ include_directories(
 )
 
 ## Locations of library files.
-link_directories(
-  ${stereo_dnn_lib_dir}/build/lib
-)
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -95,9 +94,15 @@ target_sources(stereo_dnn_ros_node PRIVATE
 # add_dependencies(stereo_dnn_ros_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+
+message(WARNING ${nvstereo_inference_LIBRARIES})
+message(WARNING ${CUDA_LIBRARIES})
+message(WARNING ${nvstereo_inference_LIBRARY_DIRS})
+link_directories(${nvstereo_inference_LIBRARY_DIRS})
+
 target_link_libraries(stereo_dnn_ros_node
   ${catkin_LIBRARIES}
-  nvstereo_inference_debug
+  ${nvstereo_inference_LIBRARIES}
   ${CUDA_LIBRARIES}
   cudnn
   nvinfer
